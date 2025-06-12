@@ -1,110 +1,36 @@
-[
-    {
-        "key": "dbln",
-        "value": "%7B%2261577086925000%22%3A%22Ft14embC%22%7D",
-        "domain": "facebook.com",
-        "path": "/login/device-based/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.623Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "datr",
-        "value": "ycxFaATgptBRGUnAzIZfA1zX",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "sb",
-        "value": "ycxFaDJO3gyMGeFp7b3m9-Gw",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "ps_l",
-        "value": "1",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "ps_n",
-        "value": "1",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "c_user",
-        "value": "61577086925000",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "xs",
-        "value": "49%3AzSGzJjjD2aHzKw%3A2%3A1749405084%3A-1%3A-1",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "locale",
-        "value": "en_GB",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "vpd",
-        "value": "v1%3B720x360x3",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "fr",
-        "value": "0U2eDaJdXK6kPVAyl.AWcoQx93ErpTIT_q0AeqqyEXX1n6mQhb6S8xgLlMZipArWMD5yA.BoRczJ..AAA.0.0.BoRxp9.AWfm_FKCLix_QiwH7PWLospeFu4",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "fbl_st",
-        "value": "100634411%3BT%3A29158171",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    },
-    {
-        "key": "wl_cbv",
-        "value": "v2%3Bclient_version%3A2840%3Btimestamp%3A1749490301",
-        "domain": "facebook.com",
-        "path": "/",
-        "hostOnly": false,
-        "creation": "2025-06-12T10:57:47.624Z",
-        "lastAccessed": "2025-06-12T10:57:47.624Z"
-    }
-]
+name: Node.js CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    # Step to check out the repository code
+    - uses: actions/checkout@v2
+
+    # Step to set up the specified Node.js version
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Step to install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # Step to run the bot with the correct port
+    - name: Start the bot
+      env:
+        PORT: 8080
+      run: npm start
